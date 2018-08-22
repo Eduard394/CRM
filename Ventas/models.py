@@ -16,7 +16,7 @@ class Cliente(models.Model): # clientes
     direccion = models.CharField(max_length=100, blank=True, null=True)
 
     def NombreCompleto(self):
-		cadena="{0} , {1}"
+		cadena="{0}  {1}"
 		return cadena.format(self.nombres,self.apellidos)
 
     def __str__(self):

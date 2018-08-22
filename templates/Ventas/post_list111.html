@@ -1,0 +1,58 @@
+  {% load staticfiles %}
+  <html>
+        <head>
+            <title>CRM</title>
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    		<link rel="stylesheet" href="{% static 'css/clientes.css' %}">
+    		 <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+        </head>
+        <body>
+            <div class="page-header">
+                <h1><a href="">Proyecto CRM</a></h1>
+            </div>
+
+            <!--<div>
+                <p>published: 14.06.2018, 12:14</p>
+                <h2><a href="">My first post</a></h2>
+                <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+            </div>
+
+            <div>
+                <p>published: 14.06.2014, 12:14</p>
+                <h2><a href="">My second post</a></h2>
+                <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut f.</p>
+            </div>-->
+
+         <div>
+            	
+            	{{ clientes_list}}
+            	<br>
+            	{% for i in clientes_list %}
+        			{{ i }}
+   				{% endfor %}
+            </div>
+
+          
+            
+
+		<div class="content container">
+		   	<div class="col-md-8">
+              {% for post in clientes_list %}
+		        <div class='post'>
+		        	<div class="date">
+		             {{ post.fecha_crea }}
+		            </div>
+		            <h1><a>Nombres: {{ post.nombres }}</a></h1>
+		            <p><{{ post.apellidos}}</p>
+		            <p>cedula: {{ post.cedula }}</p>
+		            <p>Email: {{ post.email}}</p>
+		            <p>Telefono: {{ post.celular }}</p>
+		      {% endfor %}
+		      </div>
+		   			
+		</div>
+
+	</div>
+</body>
+</html>

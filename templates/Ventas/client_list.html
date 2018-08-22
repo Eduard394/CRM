@@ -1,0 +1,24 @@
+{% extends 'Ventas/base.html' %}
+{% block content %}
+		<div class="content container">
+            <div class="row"></div>
+    		   	<div class="col-md-8">
+                  {% for i in clientes_list %}
+    		        <div class='post'>
+        		        	<!--<div class="date">
+        		              {{ i.fecha_crea }}
+        		            </div>-->
+                        <h1><a href="{% url 'client_detail' pk=i.pk %}">{{ i.nombres }}  {{i.apellidos}}</a></h1>
+    		            <!--<h1><a>Nombres: {{ i.nombres }}  {{i.apellidos}}</a></h1>-->
+    		            <p><{{ i.apellidos}}</p>
+    		            <p>cedula: {{ i.cedula }}</p>
+    		            <p>Email: {{ i.email}}</p>
+    		            <p>Telefono: {{ i.celular }}</p>
+                        </div>
+    		      {% endfor %}
+    		  </div>
+		   			
+		  </div>
+
+	   </div>
+{% endblock %}
