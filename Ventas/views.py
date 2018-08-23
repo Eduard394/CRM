@@ -1,3 +1,4 @@
+# encoding:utf-8
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.utils import timezone
@@ -49,5 +50,37 @@ def client_edit(request, pk):
 
 
 
-def index(request):
+def home(request):
+	#return render(request,'login2.html')
     return HttpResponse("Hello, world. You're at the polls index.")
+
+
+def inicio(request):
+	#return render(request,'login2.html')
+    return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
+
+
+"""def login_(request):
+
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if user.is_active:
+                    login(request, user)
+
+                else:
+                    messages.error(request, (
+                        'No esta autorizado para ingresar a la plataforma'))
+                    return redirect(reverse('inicio', args=()))
+            else:
+                messages.error(request, (
+                    'El usuario o la contraseña son incorrectos'))
+                return redirect(reverse('inicio', args=()))
+    return redirect('inicio')
+"""
