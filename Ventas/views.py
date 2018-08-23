@@ -39,10 +39,11 @@ def client_edit(request, pk):
             form = ClientForm(request.POST, instance=client)
             if form.is_valid():
                 client = form.save(commit=False)
+                client.fecha_crea = timezone.now()
                 client.save()
                 return redirect('client_detail', pk=client.pk)
         else:
-            form = PostForm(instance=client)
+            form = ClientForm(instance=client)
         return render(request, 'Ventas/client_edit.html', {'form': form})
 
 
