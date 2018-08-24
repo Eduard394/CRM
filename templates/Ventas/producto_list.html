@@ -4,17 +4,18 @@
 		<div class="content container">
             <div class="row"></div>
     		   	<div class="col-md-8">
-                  {% for i in clientes_list %}
+                  {% for i in productos_list %}
     		        <div class='post'>
         		        	<!--<div class="date">
         		              {{ i.fecha_crea }}
         		            </div>-->
-                        <h1><a href="{% url 'client_detail' pk=i.pk %}">{{ i.nombres }}  {{i.apellidos}}</a></h1>
+                        <h1><a href="{% url 'producto_detail' pk=i.pk %}">{{ i.nombre }}</a></h1>
     		            <!--<h1><a>Nombres: {{ i.nombres }}  {{i.apellidos}}</a></h1>-->
-    		            <p><{{ i.apellidos}}</p>
-    		            <p>cedula: {{ i.cedula }}</p>
-    		            <p>Email: {{ i.email}}</p>
-    		            <p>Telefono: {{ i.celular }}</p>
+    		            <p>descripcion: {{ i.id}}</p>
+                        <p>descripcion: {{ i.descripcion}}</p>
+    		            <p>Cantidad:  {{ i.cantidad }}</p>
+    		            <p>Prtecio/U: {{ i.precio_unitario}}</p>
+    		            
                         </div>
     		      {% endfor %}
     		  </div>

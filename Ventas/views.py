@@ -2,8 +2,8 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.utils import timezone
-from .models import Cliente
-from .forms import ClientForm
+from .models import Cliente,Producto
+from .forms import ClientForm, ProductoForm
 
 # Create your views here.
 
@@ -51,13 +51,42 @@ def client_edit(request, pk):
 
 
 def home(request):
-	#return render(request,'login2.html')
-    return HttpResponse("Hello, world. You're at the polls index.")
+	return render(request,'Ventas/home.html')
+    #return HttpResponse("Hello, world. You're at the polls index.")
 
 
 def inicio(request):
-	#return render(request,'login2.html')
+	#return render(request,'Ventas/home.html')
     return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
+
+
+###### Inicio Productos ####################
+
+def producto_list(request):
+        productos_list = Producto.objects.all().order_by('nombre')
+        return render(request, 'Ventas/producto_list.html', {'productos_list': productos_list})
+
+def producto_detail(request,pk):
+        producto_detail = get_object_or_404(Producto, pk=pk)
+        return render(request, 'Ventas/producto_detail.html', {'producto_detail': producto_detail})
+
+def producto_new(request):
+    if request.method=="POST":
+        form=ProductoForm(request.POST)
+        if form.is_valid():
+            producto=form.save(commit=False)
+            producto.save()
+            return redirect('Ventas/home.html')
+    else:
+        form=ProductoForm()
+
+    return render(request,'Ventas/producto_edit.html',{'form': form})
+    #return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
+
+
+###### FIN Productos ####################
+
+
 
 
 """def login_(request):
