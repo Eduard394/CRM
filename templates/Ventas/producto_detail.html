@@ -11,13 +11,11 @@
         {% endif %}
         
         </div>
-        <h2>{{producto_detail}}</h2>
         <h1>{{ producto_detail.nombre }}</h1>
         <p>{{ producto_detail.descripcion }}</p>
         <p>{{ producto_detail.cantidad }}</p>
-        <p>{{ producto_detail.email }}</p>
-        <p>{{ producto_detail.celular }}</p>
-        <p>{{ producto_detail.direccion }}</p>
+        <p>{{ producto_detail.precio_unitario}}</p>
+        <a class="btn btn-default" href="{% url 'producto_edit' pk=producto_detail.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
         
    
 {% endblock %}

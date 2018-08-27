@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^producto/list', views.producto_list),
     url(r'^producto/new/$', views.producto_new, name='producto_new'),
     url(r'^producto/(?P<pk>[0-9]+)/$', views.producto_detail, name='producto_detail'),
+    url(r'^producto/(?P<pk>[0-9]+)/edit/$', views.producto_edit, name='producto_edit'),
 ]

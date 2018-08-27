@@ -7,6 +7,7 @@ from .forms import ClientForm, ProductoForm
 
 # Create your views here.
 
+######## INICIO Clientes ####################
 
 def client_list(request):
 	clientes_list = Cliente.objects.filter(fecha_crea__lte=timezone.now()).order_by('nombres')
@@ -29,11 +30,6 @@ def client_new(request):
 		form=ClientForm()
 		return render(request,'Ventas/client_edit.html', {'form': form})
 
-
-"""def client_new(request):
-        form = ClientForm()
-        return render(request, 'Ventas/client_edit.html', {'form': form})
-"""
 def client_edit(request, pk):
         client = get_object_or_404(Cliente, pk=pk)
         if request.method == "POST":
@@ -46,7 +42,7 @@ def client_edit(request, pk):
         else:
             form = ClientForm(instance=client)
         return render(request, 'Ventas/client_edit.html', {'form': form})
-
+###### FIN Clientes ####################
 
 
 
@@ -82,7 +78,18 @@ def producto_new(request):
 
     return render(request,'Ventas/producto_edit.html',{'form': form})
     #return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
-
+def producto_edit(request, pk):
+        producto = get_object_or_404(Producto, pk=pk)
+        if request.method == "POST":
+            form = ProductoForm(request.POST, instance=producto)
+            if form.is_valid():
+                producto = form.save(commit=False)
+                producto.fecha_crea = timezone.now()
+                producto.save()
+                return redirect('producto_detail', pk=producto.pk)
+        else:
+            form = ProductoForm(instance=producto)
+        return render(request, 'Ventas/producto_edit.html', {'form': form})
 
 ###### FIN Productos ####################
 
