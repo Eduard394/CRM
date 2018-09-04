@@ -18,4 +18,8 @@ urlpatterns = [
     url(r'^producto/new/$', views.producto_new, name='producto_new'),
     url(r'^producto/(?P<pk>[0-9]+)/$', views.producto_detail, name='producto_detail'),
     url(r'^producto/(?P<pk>[0-9]+)/edit/$', views.producto_edit, name='producto_edit'),
+    url(r'^venta/new/$', views.venta_new, name='venta_new'),
+    url(r'^venta/list', views.venta_list),
+    url(r'^venta/(?P<pk>[0-9]+)/$', views.venta_detail, name='venta_detail'),
+    url(r'^venta/(?P<pk>[0-9]+)/edit/$', views.venta_edit, name='venta_edit'),
 ]

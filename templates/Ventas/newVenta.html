@@ -1,0 +1,286 @@
+{% extends 'Ventas/base.html' %}
+
+{% block content %}
+{% load leaflet_tags %}
+{% leaflet_js %}
+{% leaflet_css %}
+<style>
+  .leaflet-container {  
+    height: 600px; 
+    width:  100%;
+    }
+</style>
+    
+	<div class="container">
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header" align="center">Crear actividad</div>
+      <div class="card-body">
+
+      <form method="post">
+			{% csrf_token %}
+
+			   <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">               
+        					<label>Asignar a:</label>
+        					{{form.usuario}}		
+              </div>
+              <div class="col-md-6">
+                  <label >Cuenta</label>
+  					       {{form.cuenta}}
+              </div>
+            </div>
+ 	       </div>
+         <div class="form-group">
+	            <label >Asunto</label>
+						  <input class="form-control" type="text" name="asunto">
+              <FONT COLOR="red">
+                {{form.asunto.errors}}
+              </FONT>
+         </div>
+
+         <div class="form-group">
+	          <label >Descripcion</label>
+						<input class="form-control" type="text" name="descripcion">
+
+            <FONT COLOR="red">
+              {{form.descripcion.errors}}
+            </FONT>
+	       </div>
+
+         <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label >Fecha de inicio</label>
+           			    <input class="form-control" id="fechai" type="date" name="fecha_inicio">
+                </div>
+                <div class="col-md-6">
+                    <label >Hora inicio</label>
+           			    <input class="form-control" id="horai" type="time" name="hora_inicio">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label >Fecha de finalización</label>
+                    <input class="form-control" id="fechaf" type="date" name="fecha_fin">
+                </div>
+                <div class="col-md-6">
+                     <label >Hora fin</label>
+                      <input class="form-control" id="horaf" type="time" name="hora_fin">
+                </div>
+            </div>
+        </div>
+	          
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                      <label >Estado</label>
+                      <div class="col-lg-12 oferta-input hidden">
+                            {{form.estado}}
+                      </div>
+                </div>
+                <div class="col-md-6"> 
+                    <div class="form-group" id="div_tipo_actividad">
+                        <label >Tipo de actividad a enviar</label>
+                        {{form.tipo_actividad}}  
+                        <FONT COLOR="red"><b>
+                            {{form.tipo_actividad.errors}}</b>
+                        </FONT>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="form-row" id = "div_locations">
+              <div class="col-md-6">
+                  <label >Latitud</label>
+                  <input class="form-control" id = "campo_latitude" name="latitude">
+              </div>
+              <div class="col-md-6">
+                  <label >Longitud</label>
+                  <input class="form-control" id="campo_longitude" type="text" name="longitude">
+              </div>
+            </div>
+
+        
+        </div>         
+      </div>
+    </div>   
+
+           	<div class="text-center">
+  			      <button class="btn btn-primary" type="submit">Guardar <i class="fa fa-arrow-circle-right"></i></button>
+  		      </div>  	         		
+		     </form>
+          <div class = "content" id = "div_content_map">      
+            <div class = "row" >
+                <div class="col-md-12">
+                   <p align="center">Señalar punto o geocerca donde el asesor realizará la actividad</p>
+                   <p>La ubicación en el mapa solo es obligatoria para las VISITAS. </BR>
+                      El asesor solo podrá finalizar la visita si está dentro de la zona marcada</p> 
+                      <div class="card ">
+                        <div >
+                    <input  style="width:350px" id="Ciudad" title="ej: Carrera 8, Calle 19, Pereira" type="text" class="form-control" placeholder="Digita una direccion."/>
+                    <button  id="buscarPunto" class="btn" onclick="findLatLon()">Buscar</button>
+              </div>
+                      <div class=" card-content">
+                          {% leaflet_map "main" callback="map_init_basic" %}
+                      </div> 
+                      
+                    </div>  
+                  </div>  
+              </div>
+          </div>
+          
+       
+    
+
+         
+      </div>
+    </div>
+  </div>
+
+
+
+<script type="text/javascript">
+
+  var arregloMap = [""];
+
+	function get_date() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+
+        if(dd<10) {
+            dd='0'+dd
+        } 
+
+        if(mm<10) {
+            mm='0'+mm
+        } 
+
+        today = yyyy+'-'+mm+'-'+dd;
+        return today
+      }
+
+  document.getElementById('div_locations').style.display = 'none';
+  document.getElementById("fechai").value = get_date();
+  document.getElementById("horai").value = '00:00:00';
+  document.getElementById("fechaf").value = get_date();
+  document.getElementById("horaf").value = '23:59:00';	
+
+
+  function map_init_basic (map, options) {
+      fechai = get_date();
+      var layer = L.geoJson();
+      map.addLayer(layer);
+
+      map.setView([4.81500, -75.71064], 12);
+
+      points = []
+
+      map.on('click', function(e) {
+          document.getElementById("campo_latitude").value = e.latlng.lat;
+  		    document.getElementById("campo_longitude").value = e.latlng.lng;
+
+  		for (i=0;i<points.length;i++) {
+            map.removeLayer(points[i]);
+          }
+          points = []
+
+  		var point = L.circle([e.latlng.lat, e.latlng.lng], {
+		    color: 'red',
+		    fillColor: '#f03',
+		    fillOpacity: 0.5,
+		    radius: 200
+		}).addTo(map);
+      	points.push(point);
+      });
+
+      var blueIcon = L.icon({
+          iconUrl: '/static/images/coolblue_small.png',
+         
+          iconSize:     [17, 25], // size of the icon
+          iconAnchor:   [8, 25], // point of the icon which will correspond to marker's location
+          popupAnchor:  [-0, -25] // point from which the popup should open relative to the iconAnchor
+      }); 
+
+      var notFound = L.icon({
+          iconUrl: '/static/images/do-not-disturb.png',
+         
+          iconSize:     [90, 90], // size of the icon
+          iconAnchor:   [60, 60], // point of the icon which will correspond to marker's location
+          popupAnchor:  [-15, -70] // point from which the popup should open relative to the iconAnchor
+      });   
+
+      var person = L.icon({
+          iconUrl: '/static/images/person.png',
+         
+          iconSize:     [50, 50], // size of the icon
+          iconAnchor:   [25, 50], // point of the icon which will correspond to marker's location
+          popupAnchor:  [-0, -50] // point from which the popup should open relative to the iconAnchor
+      });   
+
+      arregloMap[0] = map;
+
+      $("#Ciudad").keyup(function (e) {
+            if (e.keyCode == 13) {
+                findLatLon();
+            }
+        });
+    }
+
+
+
+
+
+
+function findLatLon(){
+  //var calle = $$("#Calle").val()
+  //var carrera = $$("#Carrera").val()
+  var ciudad = document.getElementById("Ciudad").value
+  //var url = 'http://nominatim.openstreetmap.org/search?q=calle+'+calle+',carrera+'+carrera+','+ciudad+'&format=json&addressdetails=0';
+  
+  var buscarPlace = deleteSpaces(ciudad)
+  var url = 'http://nominatim.openstreetmap.org/search?q='+buscarPlace+'&format=json&addressdetails=0';
+  //console.log(url)
+  zoom = 16;
+  $.getJSON(url, function(data){
+    if (data.length != 0){
+      console.log(data);
+     
+    var latitud = data[0].lat;
+    var longitud = data[0].lon;
+
+    /*
+    var centerLonLat = new OpenLayers.LonLat(longitud,latitud).transform(
+          new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+          new OpenLayers.Projection("EPSG:900913") // to Spherical Mercator
+      );
+      map.setCenter(centerLonLat,  zoom);
+
+      */
+
+      arregloMap[0].setView([latitud, longitud], 15);
+    }
+    else{
+      alert("¡Error! Por favor sé más específico con la ubicación")
+      
+    }
+        
+    });
+}
+
+function deleteSpaces(words){
+  words = words.replace(/\s/g,"+");
+  return words
+}
+    
+</script>
+  
+{% endblock %}
+

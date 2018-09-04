@@ -2,10 +2,33 @@
 from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.utils import timezone
-from .models import Cliente,Producto
-from .forms import ClientForm, ProductoForm
+from django.core.urlresolvers import reverse_lazy
+from .models import Cliente,Producto,Venta
+from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm
+from django.views.generic import CreateView, ListView,TemplateView
 
 # Create your views here.
+
+### INICIOOO####################################
+
+def home(request):
+    return render(request,'Ventas/home.html')
+    #return HttpResponse("Hello, world. You're at the polls index.")
+
+
+def inicio(request):
+    #return render(request,'Ventas/home.html')
+    return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
+
+
+
+
+
+
+
+
+
+
 
 ######## INICIO Clientes ####################
 
@@ -45,17 +68,6 @@ def client_edit(request, pk):
 ###### FIN Clientes ####################
 
 
-
-def home(request):
-	return render(request,'Ventas/home.html')
-    #return HttpResponse("Hello, world. You're at the polls index.")
-
-
-def inicio(request):
-	#return render(request,'Ventas/home.html')
-    return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
-
-
 ###### Inicio Productos ####################
 
 def producto_list(request):
@@ -72,7 +84,7 @@ def producto_new(request):
         if form.is_valid():
             producto=form.save(commit=False)
             producto.save()
-            return redirect('Ventas/home.html')
+            return redirect('producto_detail', pk=producto.pk)
     else:
         form=ProductoForm()
 
@@ -94,6 +106,69 @@ def producto_edit(request, pk):
 ###### FIN Productos ####################
 
 
+#### Inicio Venta ############
+
+def venta_new(request):
+    if request.method=="POST":
+        form=VentaForm(request.POST)
+        if form.is_valid():
+            venta=form.save(commit=False)
+            venta.save()
+            return redirect('venta_detail', pk=venta.pk)
+    else:
+        form=VentaForm()
+
+    return render(request,'Ventas/venta_edit.html',{'form': form})
+    #return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
+
+
+def venta_edit(request, pk):
+        venta = get_object_or_404(Venta, pk=pk)
+        if request.method == "POST":
+            form = VentaForm(request.POST, instance=venta)
+            if form.is_valid():
+                venta= form.save(commit=False)
+                venta.fecha = timezone.now()
+                venta.save()
+                return redirect('venta_detail', pk=venta.pk)
+        else:
+            form = VentaForm(instance=venta)
+        return render(request, 'Ventas/venta_edit.html', {'form': form})
+
+
+
+def venta_detail(request,pk):
+        venta_detail = get_object_or_404(Venta, pk=pk)
+        return render(request, 'Ventas/venta_detail.html', {'venta_detail': venta_detail})
+
+
+
+def venta_list(request):
+        venta_list = Venta.objects.all().order_by('fecha')
+        return render(request, 'Ventas/venta_list.html', {'venta_list': venta_list})
+
+"""def venta_edit(request, pk):
+        venta = get_object_or_404(Venta pk=pk)
+        if request.method == "POST":
+            form = VentaForm(request.POST, instance=venta)
+            if form.is_valid():
+                venta = form.save(commit=False)
+                venta.fecha = timezone.now()
+                venta.save()
+                return redirect('venta_detail', pk=venta.pk)
+        else:
+            form = VentaForm(instance=venta)
+        return render(request, 'Ventas/venta_edit.html', {'form': form})
+"""
+
+
+class NewActividad(CreateView):
+    model = Venta
+    template_name = "Ventas/newVenta.html"
+    form_class = NewVentaForm
+    success_url = reverse_lazy('Ventas/client_list.html')
+
+###### FIN Venta ################
 
 
 """def login_(request):

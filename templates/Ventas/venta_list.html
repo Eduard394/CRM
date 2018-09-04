@@ -1,0 +1,25 @@
+
+{% extends 'Ventas/base.html' %}
+{% block content %}
+		<div class="content container">
+            <div class="row"></div>
+    		   	<div class="col-md-8">
+                  {% for i in venta_list %}
+    		        <div class='post'>
+        		        	<!--<div class="date">
+        		              {{ i.fecha_crea }}
+        		            </div>-->
+                       <h1><a href="{% url 'venta_detail' pk=i.pk %}">venta #: {{ i.id }}</a></h1>
+    		           <!-- <p>descripcion: {{ i.id}}</p>-->
+    		            <p>Cliente:  {{ i.cliente}}</p>
+    		            <p>Producto {{ i.producto}}</p>
+                        <p>Total $ {{ i.precio_total}}</p>
+    		            
+                        </div>
+    		      {% endfor %}
+    		  </div>
+		   			
+		  </div>
+
+	   </div>
+{% endblock %}

@@ -45,6 +45,7 @@ class Venta(models.Model): # Venta
     cantidad=models.IntegerField(blank=True, null=True)
     precio_total = models.IntegerField(blank=True, null=True)
     estado_pago=models.BooleanField(default=False)
+    fecha= models.DateTimeField(default=timezone.now,blank=True, null=True)
    # Alumno=models.ForeignKey(Alumno,null=False,blank=False,on_delete=models.CASCADE)
 
     def Nombre(self):
