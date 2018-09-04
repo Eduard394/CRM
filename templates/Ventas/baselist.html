@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<style type="text/css"> 
+	tr {
+		cursor: pointer;
+		}
+</style>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<td>cliente</td>
+			<td>Adoptante</td>
+			<td>No. Mascotas</td>
+			<td>Razones</td>
+			<td>Acciones</td>
+		</tr>
+		
+	</thead>
+	<tbody>
+		{% if object_list %}
+		{% for cliente in object_list %}
+		<tr>
+			<td>{{ cliente.id }}</td>
+			<td>{{ cliente.persona.nombre }} {{cliente.persona.apellidos}}</td>
+			<td>{{ cliente.numero_mascotas }}</td>
+			<td>{{ cliente.razones }}</td>
+			
+			<td>
+				<a class="btn btn-primary" href="#">Editar</a>
+				<a class="btn btn-danger" href="#">Eliminar</a>
+			</td>
+		</tr>
+		{% endfor %}
+		
+		{% else %}
+		<h1>No hay registros de clientes</h1>
+		{% endif %}
+	</tbody>
+</table> 
+
+{% endblock%}

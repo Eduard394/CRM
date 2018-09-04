@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^venta/list', views.venta_list),
     url(r'^venta/(?P<pk>[0-9]+)/$', views.venta_detail, name='venta_detail'),
     url(r'^venta/(?P<pk>[0-9]+)/edit/$', views.venta_edit, name='venta_edit'),
+    #url(r'^listar', views.ListaCliente,name='ListaCliente'),
+    #url(r'^all',login_required(ListaCliente.as_view()), name = 'allactivities' ),
 ]

@@ -21,10 +21,22 @@ def inicio(request):
     return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
 
 
+def listar_obj(request):
+    return render(request,'Ventas/baselist.html')
+    #return HttpResponse("Hello, wsdfsdfsdfsdsdf.")
 
+######ensayo
 
+class ListaCliente(ListView):
+    template_name = 'Ventas/baselist.html'
+    context_object_name = 'cliente'
 
+    def dispatch(self, *args, **kwargs):
+        return super(ListaCliente, self).dispatch(*args, **kwargs)  
 
+    def get_queryset(self):
+        queryset = Actividades.objects.all()
+        return queryset
 
 
 
