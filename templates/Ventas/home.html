@@ -1,6 +1,36 @@
 {% extends 'base/base.html' %}
 
     {% block content %}
-        <h1>Nuevo Cliente</h1>
+      <div>
+    
+<!--<div align="center"><font color="#FFFFFF" size="+1"><marquee bgcolor="#383C42" direction="right" loop="20"><h2>Gesti&oacute;n Comercial</h2></marquee></font>
+</div>-->
+<div><center> <div class="n"><p> <b><font color="#383C42" face="georgia" size="6" ><marquee width="600" direction="left" scrollamount="5" bgcolor="#FFFFFF">CRM</marquee> </font></b></p></center></div>
+
+<body>
+<div class="modal-dialog modal-lg">
+        <div class="modal-content">
+                <div class="modal-header">
+                 <!--   <h3>Bienvenido: {{ user.first_name }} {{user.last_name }} </h3> -->
+                </div>
+
+
+
+                <div class="col-lg-9 col-xs-9 col-sm-9 col-md-9" align="left">
+                    <img src="/static/images/img_ini.jpg" border="0" width="780" height="300">
+                </div>               
+        </div>
+        <div align="center"><font color="#FFFFFF" size="+1"><marquee bgcolor="#383C42" direction="left" loop="20">Bienvenido {{ user.first_name }} {{user.last_name }}</marquee></font></div>
+        <br>
+        <h3><p style="color:#6FC13C";>Gestion de clientes</p></h3>
+        <p style="color:#E0C134";>Gesti&oacute;n clientes</p>
+        <p style="color:#9B39C9";>Gesti&oacute;n  Productos</p>
+        <p style="color:#73C33C";>Gesti&oacute;n  Pagos</p>
+        <p style="color:#53AECB";>Gesti&oacute;n  Cartera</p>
+        
+</div>
+
+</div>
+</body>
         
     {% endblock %}

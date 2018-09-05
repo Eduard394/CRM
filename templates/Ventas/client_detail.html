@@ -1,0 +1,23 @@
+{% extends 'Ventas/base.html' %}
+
+{% block content %}
+    
+        {% if post.fecha_crea %}
+            <div class="date">
+                {{ post.fecha_crea }}
+                
+
+            
+        {% endif %}
+        
+        </div>
+        <h2>{{cliente_detail}}</h2>
+        <h1>{{ cliente_detail.cedula }}</h1>
+        <p>{{ cliente_detail.fecha_crea }}</p>
+        <p>{{ cliente_detail.fecha_nacimiento }}</p>
+        <p>{{ cliente_detail.email }}</p>
+        <p>{{ cliente_detail.celular }}</p>
+        <p>{{ cliente_detail.direccion }}</p>
+        <a class="btn btn-default" href="{% url 'client_edit' pk=cliente_detail.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+   
+{% endblock %}
