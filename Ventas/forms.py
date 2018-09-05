@@ -104,12 +104,12 @@ class NewCuentaForm(forms.ModelForm):
 	cedula = forms.CharField(
 	max_length=60, required=True, label='Identificacion',
 	widget=forms.TextInput(attrs={
-		'class': 'form-control', 'placeholder': '',
+		'class': 'form-control', 'placeholder': 'CC',
 		'required': 'required'}))
 
 	fecha_nacimiento= forms.DateField(
-        label=_(u"Fecha de inicio"), widget=forms.TextInput(attrs={
-            'class': 'form-control datepicker-min', 'placeholder': 'Fecha BORN'}))
+        label=_(u"Fecha de Nacimiento"), widget=forms.TextInput(attrs={
+            'class': 'form-control datepicker-min', 'placeholder': '07/08/1950'}))
 
 
 	email = forms.EmailField(
@@ -129,7 +129,7 @@ class NewCuentaForm(forms.ModelForm):
 	celular= forms.CharField(
 	max_length=10, required=False, label='Telefono',
 	widget=forms.TextInput(attrs={
-		'class': 'form-control', 'placeholder': '',
+		'class': 'form-control', 'placeholder': 'Celular',
 		'required': 'required'}))
 
 	class Meta:

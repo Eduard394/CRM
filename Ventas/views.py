@@ -22,22 +22,16 @@ def inicio(request):
     return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
 
 
-def listar_obj(request):
-    return render(request,'Ventas/baselist.html')
-    #return HttpResponse("Hello, wsdfsdfsdfsdsdf.")     
-
-
-
 ######## INICIO Clientes ####################
 
 def client_list(request):
 	clientes_list = Cliente.objects.filter(fecha_crea__lte=timezone.now()).order_by('nombres')
-        return render(request, 'Ventas/client_list.html', {'clientes_list': clientes_list})
+        return render(request, 'Clientes/client_list.html', {'clientes_list': clientes_list})
 
 
 def client_detail(request,pk):
 	cliente_detail = get_object_or_404(Cliente, pk=pk)
-    	return render(request, 'Ventas/client_detail.html', {'cliente_detail': cliente_detail})
+    	return render(request, 'Clientes/client_detail.html', {'cliente_detail': cliente_detail})
 
 def client_new(request):
 	if request.method == "POST":
@@ -49,7 +43,7 @@ def client_new(request):
 			return redirect('client_detail', pk=client.pk)
 	else:
 		form=ClientForm()
-		return render(request,'Ventas/client_edit.html', {'form': form})
+		return render(request,'Clientes/client_edit.html', {'form': form})
 
 def client_edit(request, pk):
         client = get_object_or_404(Cliente, pk=pk)
@@ -62,7 +56,7 @@ def client_edit(request, pk):
                 return redirect('client_detail', pk=client.pk)
         else:
             form = ClientForm(instance=client)
-        return render(request, 'Ventas/client_edit.html', {'form': form})
+        return render(request, 'Clientes/client_edit.html', {'form': form})
 ###### FIN Clientes ####################
 
 
@@ -70,11 +64,11 @@ def client_edit(request, pk):
 
 def producto_list(request):
         productos_list = Producto.objects.all().order_by('nombre')
-        return render(request, 'Ventas/producto_list.html', {'productos_list': productos_list})
+        return render(request, 'Productos/producto_list.html', {'productos_list': productos_list})
 
 def producto_detail(request,pk):
         producto_detail = get_object_or_404(Producto, pk=pk)
-        return render(request, 'Ventas/producto_detail.html', {'producto_detail': producto_detail})
+        return render(request, 'Productos/producto_detail.html', {'producto_detail': producto_detail})
 
 def producto_new(request):
     if request.method=="POST":
@@ -86,7 +80,7 @@ def producto_new(request):
     else:
         form=ProductoForm()
 
-    return render(request,'Ventas/producto_edit.html',{'form': form})
+    return render(request,'Productos/producto_edit.html',{'form': form})
     #return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
 def producto_edit(request, pk):
         producto = get_object_or_404(Producto, pk=pk)
@@ -99,7 +93,7 @@ def producto_edit(request, pk):
                 return redirect('producto_detail', pk=producto.pk)
         else:
             form = ProductoForm(instance=producto)
-        return render(request, 'Ventas/producto_edit.html', {'form': form})
+        return render(request, 'Productos/producto_edit.html', {'form': form})
 
 ###### FIN Productos ####################
 
@@ -154,14 +148,14 @@ def venta_list(request):
 
 class Cliente_list(ListView):
     model= Cliente
-    template_name='Ventas/client_list_class.html'
+    template_name='Clientes/client_list_class.html'
 
 
 
 class Cliente_create(CreateView):
     model = Cliente
     form_class = NewCuentaForm
-    template_name = 'Ventas/client_edit_class.html'
+    template_name = 'Clientes/client_edit_class.html'
     success_url = reverse_lazy('client_listar')
 
     def form_valid(self, form):
