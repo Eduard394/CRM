@@ -9,7 +9,8 @@ from django.views.generic import CreateView, ListView,TemplateView
 
 # Create your views here.
 
-### INICIOOO####################################
+############## Vistas Basadas en Funciones#############
+
 
 def home(request):
     return render(request,'Ventas/home.html')
@@ -23,22 +24,7 @@ def inicio(request):
 
 def listar_obj(request):
     return render(request,'Ventas/baselist.html')
-    #return HttpResponse("Hello, wsdfsdfsdfsdsdf.")
-
-######ensayo
-
-class ListaCliente(ListView):
-    template_name = 'Ventas/baselist.html'
-    context_object_name = 'cliente'
-
-    def dispatch(self, *args, **kwargs):
-        return super(ListaCliente, self).dispatch(*args, **kwargs)  
-
-    def get_queryset(self):
-        queryset = Actividades.objects.all()
-        return queryset
-
-
+    #return HttpResponse("Hello, wsdfsdfsdfsdsdf.")     
 
 
 
@@ -159,51 +145,26 @@ def venta_list(request):
         venta_list = Venta.objects.all().order_by('fecha')
         return render(request, 'Ventas/venta_list.html', {'venta_list': venta_list})
 
-"""def venta_edit(request, pk):
-        venta = get_object_or_404(Venta pk=pk)
-        if request.method == "POST":
-            form = VentaForm(request.POST, instance=venta)
-            if form.is_valid():
-                venta = form.save(commit=False)
-                venta.fecha = timezone.now()
-                venta.save()
-                return redirect('venta_detail', pk=venta.pk)
-        else:
-            form = VentaForm(instance=venta)
-        return render(request, 'Ventas/venta_edit.html', {'form': form})
-"""
+##############  FIN Vistas Basadas en Funciones #############
 
 
-class NewActividad(CreateView):
-    model = Venta
-    template_name = "Ventas/newVenta.html"
-    form_class = NewVentaForm
-    success_url = reverse_lazy('Ventas/client_list.html')
-
-###### FIN Venta ################
+############## Vistas Basadas en clases #############
 
 
-"""def login_(request):
 
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
+class Cliente_list(ListView):
+    model= Cliente
+    template_name='Ventas/baselist.html'
 
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username, password=password)
 
-            if user:
-                if user.is_active:
-                    login(request, user)
 
-                else:
-                    messages.error(request, (
-                        'No esta autorizado para ingresar a la plataforma'))
-                    return redirect(reverse('inicio', args=()))
-            else:
-                messages.error(request, (
-                    'El usuario o la contraseña son incorrectos'))
-                return redirect(reverse('inicio', args=()))
-    return redirect('inicio')
-"""
+class Cliente_create(CreateView):
+    model = Cliente
+    form_class = ClientForm
+    template_name = 'Ventas/client_edit_class.html'
+    success_url = reverse_lazy('client_listar')
+
+
+
+
+##############   Fin Vistas Basadas en clases #############

@@ -7,13 +7,20 @@
 		}
 </style>
 
-<table class="table table-bordered">
+<div class="card mb-3">
+<div class="card-header">
+  <i class="fa fa-table"></i> Clientes</div>
+<div class="card-body">
+
+
+<table class="table table-bordered table-hover" id="dataTables" width="100%" cellspacing="0">
 	<thead>
 		<tr>
-			<td>cliente</td>
-			<td>Adoptante</td>
-			<td>No. Mascotas</td>
-			<td>Razones</td>
+			<td>DNI</td>
+			<td>Nombre y apellidos</td>			
+			<td>Born</td>
+			<td>Email</td>
+			<td>Telefono</td>
 			<td>Acciones</td>
 		</tr>
 		
@@ -22,14 +29,15 @@
 		{% if object_list %}
 		{% for cliente in object_list %}
 		<tr>
-			<td>{{ cliente.id }}</td>
-			<td>{{ cliente.persona.nombre }} {{cliente.persona.apellidos}}</td>
-			<td>{{ cliente.numero_mascotas }}</td>
-			<td>{{ cliente.razones }}</td>
+			<td>{{ cliente.cedula }}</td>
+			<td>{{ cliente.nombres }} {{cliente.apellidos }}</td>			
+			<td>{{ cliente.fecha_nacimiento}}</td>
+			<td>{{ cliente.email}}</td>
+			<td>{{ cliente.celular}}</td>
 			
 			<td>
 				<a class="btn btn-primary" href="#">Editar</a>
-				<a class="btn btn-danger" href="#">Eliminar</a>
+			<!--	<a class="btn btn-danger" href="#">Eliminar</a>-->
 			</td>
 		</tr>
 		{% endfor %}
@@ -39,5 +47,7 @@
 		{% endif %}
 	</tbody>
 </table> 
+</div>
+</div>
 
 {% endblock%}

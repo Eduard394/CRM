@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include
 from django.conf.urls import include, url
 from django.contrib.auth.views import login, logout_then_login, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 from django.contrib.auth.decorators import login_required
-
+from Ventas.views import Cliente_list, Cliente_create
 from . import views
 
 urlpatterns = [
@@ -10,8 +10,8 @@ urlpatterns = [
    # url(r'^',login,  {'template_name':'login_tim.html'}, name='logins'),
     #url(r'^$', views.index),
     url(r'^inicio', login_required(views.home), name = 'inicio' ),
-    url(r'^client/list', views.client_list),
-    url(r'^client/new/$', views.client_new, name='client_new'),
+   # url(r'^client/list', views.client_list),
+    #url(r'^client/new/$', views.client_new, name='client_new'),
     url(r'^client/(?P<pk>[0-9]+)/$', views.client_detail, name='client_detail'),
     url(r'^client/(?P<pk>[0-9]+)/edit/$', views.client_edit, name='client_edit'),
     url(r'^producto/list', views.producto_list),
@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^venta/(?P<pk>[0-9]+)/edit/$', views.venta_edit, name='venta_edit'),
     #url(r'^listar', views.ListaCliente,name='ListaCliente'),
     #url(r'^all',login_required(ListaCliente.as_view()), name = 'allactivities' ),
+    url(r'^client/list1', Cliente_list.as_view(), name='client_listar'),
+    url(r'^client/new/$', Cliente_create.as_view(), name='client_new'),
 ]
