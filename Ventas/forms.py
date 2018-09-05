@@ -83,3 +83,72 @@ class NewVentaForm(forms.ModelForm):
             super(NewVentaForm, self).__init__(*args, **kwargs)
             self.fields['cliente'].queryset = Cliente.objects.filter(clientes=user, activo = True) 
             self.fields['producto'].queryset = Producto.objects.all() | Producto.objects.filter(id=0).order_by('id')
+
+
+
+
+class NewCuentaForm(forms.ModelForm):
+
+	nombres = forms.CharField(
+	max_length=60, required=True, label='Nombres',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': '',
+		'required': 'required'}))
+
+	apellidos = forms.CharField(
+	max_length=60, required=True, label='Apellidos',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': '',
+		'required': 'required'}))
+
+	cedula = forms.CharField(
+	max_length=60, required=True, label='Identificacion',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': '',
+		'required': 'required'}))
+
+	fecha_nacimiento= forms.DateField(
+        label=_(u"Fecha de inicio"), widget=forms.TextInput(attrs={
+            'class': 'form-control datepicker-min', 'placeholder': 'Fecha BORN'}))
+
+
+	email = forms.EmailField(
+		label='Correo electrónico', required=False	,
+		widget=forms.TextInput(attrs={
+			'class': 'form-control', 'placeholder': 'Correo electrónico',
+			'required': 'required', 'type': 'email'}))
+
+
+	direccion = forms.CharField(
+	label=_(u'Dirección'), required=False,
+	widget=forms.Textarea(attrs={
+		'rows': 1, 'class': 'form-control',
+		'placeholder': _(u'Dirección')}))	
+
+
+	celular= forms.CharField(
+	max_length=10, required=False, label='Telefono',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': '',
+		'required': 'required'}))
+
+	class Meta:
+		model = Cliente
+		fields = [
+			'nombres',
+			'apellidos',
+			'cedula',
+			'fecha_nacimiento',
+			'email',
+			'direccion',
+			'celular'  ,
+			
+
+		]
+
+		labels = {
+			
+		}
+
+
+

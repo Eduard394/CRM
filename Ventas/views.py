@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.core.urlresolvers import reverse_lazy
 from .models import Cliente,Producto,Venta
-from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm
+from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewCuentaForm
 from django.views.generic import CreateView, ListView,TemplateView
 
 # Create your views here.
@@ -154,17 +154,19 @@ def venta_list(request):
 
 class Cliente_list(ListView):
     model= Cliente
-    template_name='Ventas/baselist.html'
+    template_name='Ventas/client_list_class.html'
 
 
 
 class Cliente_create(CreateView):
     model = Cliente
-    form_class = ClientForm
+    form_class = NewCuentaForm
     template_name = 'Ventas/client_edit_class.html'
     success_url = reverse_lazy('client_listar')
 
-
+    def form_valid(self, form):
+        form.instance.activo = True
+        return super(Cliente_create, self).form_valid(form)
 
 
 ##############   Fin Vistas Basadas en clases #############
