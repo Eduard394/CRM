@@ -5,12 +5,13 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import Cliente,Producto,Venta
 
 
+##### Forms vistas basadas en Funciones ############
+
 class ClientForm(forms.ModelForm):
 
 	class Meta:
           model = Cliente
           fields = ('nombres', 'apellidos','cedula','activo','fecha_nacimiento','email','celular','direccion')
-
 
 class ProductoForm(forms.ModelForm):
 
@@ -18,75 +19,22 @@ class ProductoForm(forms.ModelForm):
           model = Producto
           fields = ('nombre','descripcion', 'cantidad','precio_unitario')
 
-
-
 class VentaForm(forms.ModelForm):
 
 	class Meta:
           model = Venta
           fields = ('cliente','producto', 'cantidad','precio_unitario','precio_total','estado_pago')
 
+#####  FIN   Forms vistas basadas en Funciones ############
 
 
-class NewVentaForm(forms.ModelForm):
-	cliente = forms.ModelChoiceField(label=_(u'Asignar a usuario:'),
-		widget=forms.Select(attrs={
-			'size': 1, 'class': 'form-control'}),
-		queryset=Cliente.objects.all(),
-		empty_label=None)
 
-	Producto = forms.ModelChoiceField(
-		widget=forms.Select(attrs={
-			'size': 1, 'class': 'form-control'}),
-		queryset = Producto.objects.all(),
-		empty_label=None)
-
-	fecha= forms.DateField(
-        label=_(u"Fecha de inicio"), widget=forms.TextInput(attrs={
-            'class': 'form-control datepicker-min', 'placeholder': 'Fecha'}))
-
-
-	"""estado = forms.ModelChoiceField(
-		widget=forms.Select(attrs={
-			'size': 1, 'class': 'form-control'}),
-		queryset=EstadoActividad.objects.all(),
-		empty_label=None)
-
-	tipo_actividad = forms.ModelChoiceField(
-		widget=forms.Select(attrs={
-			'size': 1, 'class': 'form-control'}),
-		queryset=TipoActividad.objects.all(),
-		empty_label=None)"""
-
-
-	class Meta:
-		model = Venta
-		fields = [
-			'cliente',
-			'producto',
-			'fecha' ,
-			'estado_pago'
-
-		]
-
-		labels = {
-			'cliente' : 'Asignar a:  ',
-			'producto' : 'Cuenta: ',
-			'asunto' : 'Asunto',
-			'descripcion' : 'Descripción',
-			'fecha' : 'Fecha inicio'
-
-		}
-
-
-        def __init__(self, user=None, *args, **kwargs):
-            super(NewVentaForm, self).__init__(*args, **kwargs)
-            self.fields['cliente'].queryset = Cliente.objects.filter(clientes=user, activo = True) 
-            self.fields['producto'].queryset = Producto.objects.all() | Producto.objects.filter(id=0).order_by('id')
+##### Forms vistas basadas en Clases ############
 
 
 
 
+######### from Nuevos clientes
 class NewClientForm(forms.ModelForm):
 
 	nombres = forms.CharField(
@@ -152,3 +100,108 @@ class NewClientForm(forms.ModelForm):
 
 
 
+#### FORM para Nuevos productos
+class NewProductoForm(forms.ModelForm):
+
+	nombre = forms.CharField(
+	max_length=30, required=True, label='Nombre',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': '',
+		'required': 'required'}))
+
+	descripcion = forms.CharField(
+	max_length=30, required=True, label='Descripcion',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': '',
+		'required': 'required'}))
+
+	cantidad = forms.IntegerField(
+	required=True, label='Cantidad',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': 'Cantidad',
+		'required': 'required'}))
+
+
+	precio_unitario= forms.IntegerField(
+	required=True, label='Precio Unitario',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': 'Precio Unitario',
+		'required': 'required'}))
+
+
+	class Meta:
+		model = Producto
+		fields = [
+			'nombre',
+			'descripcion',
+			'cantidad',
+			'precio_unitario',
+		]
+
+		labels = {
+			
+		}
+
+
+
+#######  FORM para Ventas #################
+class NewVentaForm(forms.ModelForm):
+	cliente = forms.ModelChoiceField(label=_(u'Asignar a usuario:'),
+		widget=forms.Select(attrs={
+			'size': 1, 'class': 'form-control'}),
+		queryset=Cliente.objects.all(),
+		empty_label=None)
+
+	producto = forms.ModelChoiceField(
+		widget=forms.Select(attrs={
+			'size': 1, 'class': 'form-control'}),
+		queryset = Producto.objects.all(),
+		empty_label=None)
+
+	fecha= forms.DateField(
+        label=_(u"Fecha "), widget=forms.TextInput(attrs={
+            'class': 'form-control datepicker-min', 'placeholder': 'Fecha'}))
+
+	precio_unitario= forms.IntegerField(
+	required=True, label='Cantidad',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': 'Precio Unitario',
+		'required': 'required'}))
+
+	cantidad = forms.IntegerField(
+	required=True, label='Cantidad',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': 'Cantidad',
+		'required': 'required'}))
+
+	precio_total = forms.IntegerField(
+	required=True, label='Cantidad',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': 'Precio Total',
+		'required': 'required'}))
+
+	class Meta:
+		model = Venta
+		fields = [
+			'cliente',
+			'producto',
+			'fecha' ,
+			'precio_unitario',
+			'cantidad' ,
+			'precio_total' ,
+		]
+
+		labels = {
+		}
+
+
+        def __init__(self, user=None, *args, **kwargs):
+            super(NewVentaForm, self).__init__(*args, **kwargs)
+            self.fields['cliente'].queryset = Cliente.objects.all()
+            self.fields['producto'].queryset = Producto.objects.all()
+
+
+
+
+
+##### FIN     Forms vistas basadas en Clases ############

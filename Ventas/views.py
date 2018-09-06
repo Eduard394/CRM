@@ -4,10 +4,9 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.core.urlresolvers import reverse_lazy
 from .models import Cliente,Producto,Venta
-from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewClientForm
-from django.views.generic import CreateView, ListView,TemplateView,UpdateView,DeleteView
+from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewClientForm,NewProductoForm
 
-# Create your views here.
+from django.views.generic import CreateView, ListView,TemplateView,UpdateView,DeleteView
 
 ############## Vistas Basadas en Funciones#############
 
@@ -81,7 +80,7 @@ def producto_new(request):
         form=ProductoForm()
 
     return render(request,'Productos/producto_edit.html',{'form': form})
-    #return HttpResponse("Hello, world. You're at the polls indexdjfkdjfkdjfkdjf.")
+
 def producto_edit(request, pk):
         producto = get_object_or_404(Producto, pk=pk)
         if request.method == "POST":
@@ -127,12 +126,9 @@ def venta_edit(request, pk):
             form = VentaForm(instance=venta)
         return render(request, 'Ventas/venta_edit.html', {'form': form})
 
-
-
 def venta_detail(request,pk):
         venta_detail = get_object_or_404(Venta, pk=pk)
         return render(request, 'Ventas/venta_detail.html', {'venta_detail': venta_detail})
-
 
 
 def venta_list(request):
@@ -186,36 +182,58 @@ class Producto_list(ListView):
     model= Producto
     template_name='Productos/producto_list_class.html'
 
-
-
 class Producto_create(CreateView):
     model = Producto
-    form_class = NewClientForm
-    template_name = 'Productos/client_edit_class.html'
-    success_url = reverse_lazy('client_listar')
+    form_class = NewProductoForm
+    template_name = 'Productos/producto_edit_class.html'
+    success_url = reverse_lazy('producto_listar')
 
     def form_valid(self, form):
-        form.instance.activo = True
         return super(Producto_create, self).form_valid(form)
-
 
 class Producto_edit(UpdateView):
     model = Producto
-    form_class = NewClientForm
-    template_name = 'Productos/client_edit_class.html'
-    success_url = reverse_lazy('client_listar')
-
+    form_class = NewProductoForm
+    template_name = 'Productos/producto_edit_class.html'
+    success_url = reverse_lazy('producto_listar')
 
 class Producto_delete(DeleteView):
     model = Producto
-    form_class = NewClientForm
-    template_name = 'Productos/client_delete.html'
-    success_url = reverse_lazy('client_listar')
-
+    form_class = NewProductoForm
+    template_name = 'Productos/producto_delete.html'
+    success_url = reverse_lazy('producto_listar')
 
 ######### FIN clases para Productos #########
 
 
+######### clases para Ventas #########
+
+class Venta_list(ListView):
+    model= Venta
+    template_name='Ventas/venta_list_class.html'
+
+class Venta_create(CreateView):
+    model = Venta
+    form_class = NewVentaForm
+    template_name = 'Ventas/venta_edit_class.html'
+    success_url = reverse_lazy('venta_list')
+
+    def form_valid(self, form):
+        return super(Venta_create, self).form_valid(form)
+
+class Venta_edit(UpdateView):
+    model = Venta
+    form_class = NewVentaForm
+    template_name = 'Ventas/venta_edit_class.html'
+    success_url = reverse_lazy('venta_list')
+
+class Venta_delete(DeleteView):
+    model = Venta
+    form_class = NewVentaForm
+    template_name = 'Ventas/venta_delete.html'
+    success_url = reverse_lazy('venta_list')
+
+######### FIN clases para Ventas #########
 
 
 
