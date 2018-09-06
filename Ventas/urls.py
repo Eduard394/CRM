@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include
 from django.conf.urls import include, url
 from django.contrib.auth.views import login, logout_then_login, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 from django.contrib.auth.decorators import login_required
-from Ventas.views import Cliente_list, Cliente_create
+from Ventas.views import Cliente_list, Cliente_create,Producto_list
 from . import views
 
 urlpatterns = [
@@ -13,8 +13,8 @@ urlpatterns = [
     url(r'^client/listar', views.client_list,name='clintsList'),
     #url(r'^client/new/$', views.client_new, name='client_new'),
     url(r'^client/(?P<pk>[0-9]+)/$', views.client_detail, name='client_detail'),
-    url(r'^client/(?P<pk>[0-9]+)/edit/$', views.client_edit, name='client_edit'),
-    url(r'^producto/list', views.producto_list,name='producto_list'),
+    #url(r'^client/(?P<pk>[0-9]+)/edit/$', views.client_edit, name='client_edit'),
+    #url(r'^producto/list', views.producto_list,name='producto_list'),
     url(r'^producto/new/$', views.producto_new, name='producto_new'),
     url(r'^producto/(?P<pk>[0-9]+)/$', views.producto_detail, name='producto_detail'),
     url(r'^producto/(?P<pk>[0-9]+)/edit/$', views.producto_edit, name='producto_edit'),
@@ -26,4 +26,8 @@ urlpatterns = [
     #url(r'^all',login_required(ListaCliente.as_view()), name = 'allactivities' ),
     url(r'^client/list_class', Cliente_list.as_view(), name='client_listar'),
     url(r'^client/new/$', Cliente_create.as_view(), name='client_new'),
+    url(r'^client/(?P<pk>[0-9]+)/edit/$', views.Cliente_edit.as_view(), name='client_edit'),
+    url(r'^client/(?P<pk>[0-9]+)/delete/$', views.Cliente_delete.as_view(), name='client_delete'),
+
+    url(r'^producto/list_class', views.Producto_list.as_view(),name='producto_listar'),
 ]

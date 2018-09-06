@@ -3,15 +3,16 @@
 {% block content %}
 <div class = "content">
     <div class="card mx-auto mt-5">
-      <div class="card-header" align="center">Editar  Cliente</div>
+      <div class="card-header" align="center">Eliminar Cliente</div>
 	      <div class="card-body">
 	      	<div class="form-group">
 			    <form method="POST"  enctype="multipart/form-data" >
 			      {% csrf_token %}
-			      {{form}}  
+			      	<h3>Desea eliminar el cliente {{object.nombres}} {{object.apellidos}}</h3>
 			      <p></p> 
 					 <div class="text-center">
-				        <button class="btn btn-primary" type="submit">Guardad <i class="fa fa-arrow-circle-right"></i></button>
+				        <button class="btn btn-primary" type="submit">Eliminar <i class="fa fa-arrow-circle-right"></i></button>
+				        <a href="{% url 'client_listar' %}">Cancelar</a> 
 					</div>   
 			    </form>
 			</div>

@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.core.urlresolvers import reverse_lazy
 from .models import Cliente,Producto,Venta
-from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewCuentaForm
-from django.views.generic import CreateView, ListView,TemplateView
+from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewClientForm
+from django.views.generic import CreateView, ListView,TemplateView,UpdateView,DeleteView
 
 # Create your views here.
 
@@ -144,7 +144,7 @@ def venta_list(request):
 
 ############## Vistas Basadas en clases #############
 
-
+######### clases para clientes #########
 
 class Cliente_list(ListView):
     model= Cliente
@@ -154,13 +154,71 @@ class Cliente_list(ListView):
 
 class Cliente_create(CreateView):
     model = Cliente
-    form_class = NewCuentaForm
+    form_class = NewClientForm
     template_name = 'Clientes/client_edit_class.html'
     success_url = reverse_lazy('client_listar')
 
     def form_valid(self, form):
         form.instance.activo = True
         return super(Cliente_create, self).form_valid(form)
+
+
+class Cliente_edit(UpdateView):
+    model = Cliente
+    form_class = NewClientForm
+    template_name = 'Clientes/client_edit_class.html'
+    success_url = reverse_lazy('client_listar')
+
+
+class Cliente_delete(DeleteView):
+    model = Cliente
+    form_class = NewClientForm
+    template_name = 'Clientes/client_delete.html'
+    success_url = reverse_lazy('client_listar')
+
+
+######### FIN clases para clientes #########
+
+
+######### clases para Productos #########
+
+class Producto_list(ListView):
+    model= Producto
+    template_name='Productos/producto_list_class.html'
+
+
+
+class Producto_create(CreateView):
+    model = Producto
+    form_class = NewClientForm
+    template_name = 'Productos/client_edit_class.html'
+    success_url = reverse_lazy('client_listar')
+
+    def form_valid(self, form):
+        form.instance.activo = True
+        return super(Producto_create, self).form_valid(form)
+
+
+class Producto_edit(UpdateView):
+    model = Producto
+    form_class = NewClientForm
+    template_name = 'Productos/client_edit_class.html'
+    success_url = reverse_lazy('client_listar')
+
+
+class Producto_delete(DeleteView):
+    model = Producto
+    form_class = NewClientForm
+    template_name = 'Productos/client_delete.html'
+    success_url = reverse_lazy('client_listar')
+
+
+######### FIN clases para Productos #########
+
+
+
+
+
 
 
 ##############   Fin Vistas Basadas en clases #############

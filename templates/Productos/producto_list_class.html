@@ -9,35 +9,34 @@
 
 <div class="card mb-3">
 <div class="card-header">
-  <i class="fa fa-table"></i> Clientes</div>
+  <i class="fa fa-table"></i> Productos</div>
 <div class="card-body">
 
 
 <table class="table table-bordered table-hover" id="dataTables" width="100%" cellspacing="0">
 	<thead>
 		<tr>
-			<td>DNI</td>
-			<td>Nombre y apellidos</td>			
-			<td>Born</td>
-			<td>Email</td>
-			<td>Telefono</td>
-			<td>Acciones</td>
+			<td>Nombre </td>
+			<td>Descripcion</td>			
+			<td>Cantidad</td>
+			<td>Precio / U</td>
+			<td>Cantidad</td>
+			
 		</tr>
 		
 	</thead>
 	<tbody>
 		{% if object_list %}
-		{% for cliente in object_list %}
+		{% for producto in object_list %}
 		<tr>
-			<td>{{ cliente.cedula }}</td>
-			<td>{{ cliente.nombres }} {{cliente.apellidos }}</td>			
-			<td>{{ cliente.fecha_nacimiento}}</td>
-			<td>{{ cliente.email}}</td>
-			<td>{{ cliente.celular}}</td>
+			<td>{{ producto.nombre}}</td>
+			<td>{{ producto.descripcion}}</td>	
+			<td>{{ producto.cantidad}}</td>			
+			<td>{{ producto.precio_unitario}}</td>
 			
 			<td>
-				<a class="btn btn-primary" href="{% url 'client_edit' cliente.id %}">Editar</a>
-				<a class="btn btn-primary" href="{% url 'client_delete' cliente.id %}">Eliminar</a>
+				<a class="btn btn-primary" href="{% url 'client_edit' producto.id %}">Editar</a>
+				<a class="btn btn-primary" href="{% url 'client_delete' producto.id %}">Eliminar</a>
 			<!--	<a class="btn btn-danger" href="#">Eliminar</a>-->
 			</td>
 		</tr>

@@ -87,7 +87,7 @@ class NewVentaForm(forms.ModelForm):
 
 
 
-class NewCuentaForm(forms.ModelForm):
+class NewClientForm(forms.ModelForm):
 
 	nombres = forms.CharField(
 	max_length=60, required=True, label='Nombres',
