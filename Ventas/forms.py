@@ -158,10 +158,6 @@ class NewVentaForm(forms.ModelForm):
 		queryset = Producto.objects.all(),
 		empty_label=None)
 
-	fecha= forms.DateField(
-        label=_(u"Fecha "), widget=forms.TextInput(attrs={
-            'class': 'form-control datepicker-min', 'placeholder': 'Fecha'}))
-
 	precio_unitario= forms.IntegerField(
 	required=True, label='Cantidad',
 	widget=forms.TextInput(attrs={
@@ -180,15 +176,19 @@ class NewVentaForm(forms.ModelForm):
 		'class': 'form-control', 'placeholder': 'Precio Total',
 		'required': 'required'}))
 
+	estado_pago = forms.BooleanField(
+	required=False, label='Pago',
+	widget=forms.CheckboxInput())
+
 	class Meta:
 		model = Venta
 		fields = [
 			'cliente',
 			'producto',
-			'fecha' ,
 			'precio_unitario',
 			'cantidad' ,
 			'precio_total' ,
+			'estado_pago' ,
 		]
 
 		labels = {
@@ -197,8 +197,8 @@ class NewVentaForm(forms.ModelForm):
 
         def __init__(self, user=None, *args, **kwargs):
             super(NewVentaForm, self).__init__(*args, **kwargs)
-            self.fields['cliente'].queryset = Cliente.objects.all()
-            self.fields['producto'].queryset = Producto.objects.all()
+           # self.fields['cliente'].queryset = Cliente.objects.all()
+            #self.fields['producto'].queryset = Producto.objects.all()
 
 
 

@@ -67,6 +67,7 @@ class Cartera(models.Model): # Cartera
 class Abono(models.Model): # Abono
     valor = models.IntegerField(blank=True, null=True)
     cliente = models.ForeignKey(Cliente,null=False,blank=False,on_delete=models.CASCADE)
+    venta = models.ForeignKey(Venta,null=False,blank=False,on_delete=models.CASCADE)
     fecha = models.DateField(blank=True, null=True)
 
     def __int__(self):

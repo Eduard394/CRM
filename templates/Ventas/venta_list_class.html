@@ -37,7 +37,8 @@
 			<td>{{ venta.fecha}}</td>
 			
 			<td>
-				
+				<a class="btn btn-primary" href="{% url 'venta_edit' venta.id %}">Editar</a>
+				<a class="btn btn-primary" href="{% url 'venta_delete' venta.id %}">Eliminar</a>
 			<!--	<a class="btn btn-danger" href="#">Eliminar</a>-->
 			</td>
 		</tr>

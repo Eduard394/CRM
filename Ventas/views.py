@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.core.urlresolvers import reverse_lazy
 from .models import Cliente,Producto,Venta
-from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewClientForm,NewProductoForm
+from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewClientForm,NewProductoForm,NewVentaForm
 
 from django.views.generic import CreateView, ListView,TemplateView,UpdateView,DeleteView
 
@@ -219,6 +219,7 @@ class Venta_create(CreateView):
     success_url = reverse_lazy('venta_list')
 
     def form_valid(self, form):
+        form.instance.fecha = True=timezone.now()
         return super(Venta_create, self).form_valid(form)
 
 class Venta_edit(UpdateView):

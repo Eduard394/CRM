@@ -21,7 +21,7 @@ urlpatterns = [
     #url(r'^venta/new/$', views.venta_new, name='venta_new'),
     #url(r'^venta/list', views.venta_list,name='venta_list'),
     url(r'^venta/(?P<pk>[0-9]+)/$', views.venta_detail, name='venta_detail'),
-    url(r'^venta/(?P<pk>[0-9]+)/edit/$', views.venta_edit, name='venta_edit'),
+    #url(r'^venta/(?P<pk>[0-9]+)/edit/$', views.venta_edit, name='venta_edit'),
     #url(r'^listar', views.ListaCliente,name='ListaCliente'),
     #url(r'^all',login_required(ListaCliente.as_view()), name = 'allactivities' ),
 
@@ -38,4 +38,6 @@ urlpatterns = [
 
     url(r'^venta/list', views.Venta_list.as_view(),name='venta_list'),
     url(r'^venta/new/$', views.Venta_create.as_view(), name='venta_new'),
+    url(r'^venta/(?P<pk>[0-9]+)/edit/$', views.Venta_edit.as_view(), name='venta_edit'),
+    url(r'^venta/(?P<pk>[0-9]+)/delete/$', views.Venta_delete.as_view(), name='venta_delete'),
 ]

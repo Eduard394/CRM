@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class = "content">
+    <div class="card mx-auto mt-5">
+      <div class="card-header" align="center">Eliminar Venta</div>
+	      <div class="card-body">
+	      	<div class="form-group">
+			    <form method="POST"  enctype="multipart/form-data" >
+			      {% csrf_token %}
+			      	<h3>Desea eliminar La Venta  del cliente:{{object.cliente}} con {{object.producto}}</h3>
+			      <p></p> 
+					 <div class="text-center">
+				        <button class="btn btn-primary" type="submit">Eliminar <i class="fa fa-arrow-circle-right"></i></button>
+				        <a href="{% url 'venta_list' %}">Cancelar</a> 
+					</div>   
+			    </form>
+			</div>
+	      </div>
+  	</div>
+</div>
+{% endblock %}
