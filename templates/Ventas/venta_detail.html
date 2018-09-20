@@ -10,6 +10,7 @@
         <p>Cantidad: {{ venta_detail.cantidad}}</p>
         <p>Precio Total: {{ venta_detail.precio_total }}</p>
         <p>Fecha: {{ venta_detail.fecha }}</p>
-        <a class="btn btn-default" href="{% url 'venta_edit' pk=venta_detail.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        <p>Estado del pago: {{ venta_detail.estado_pago }}</p>
+      <!--  <a class="btn btn-default" href="{% url 'venta_edit' pk=venta_detail.pk %}"><span class="glyphicon glyphicon-pencil"></span></a> -->
    
 {% endblock %}

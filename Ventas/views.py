@@ -3,8 +3,8 @@ from django.shortcuts import render, get_object_or_404,redirect
 from django.http import HttpResponse
 from django.utils import timezone
 from django.core.urlresolvers import reverse_lazy
-from .models import Cliente,Producto,Venta
-from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewClientForm,NewProductoForm,NewVentaForm
+from .models import Cliente,Producto,Venta,Cartera
+from .forms import ClientForm,NewVentaForm,ProductoForm,VentaForm,NewClientForm,NewProductoForm,NewVentaForm,NewCarteraForm
 
 from django.views.generic import CreateView, ListView,TemplateView,UpdateView,DeleteView
 
@@ -234,10 +234,46 @@ class Venta_delete(DeleteView):
     template_name = 'Ventas/venta_delete.html'
     success_url = reverse_lazy('venta_list')
 
+
+class venta_detail_class(ListView):
+    model = Venta
+    form_class = NewVentaForm
+    template_name = 'Ventas/venta_delete.html'
+    success_url = reverse_lazy('venta_list')
+
 ######### FIN clases para Ventas #########
 
 
+######### clases para Cartera #########
 
+class Cartera_list(ListView):
+    model= Cartera
+    template_name='Cartera/cartera_list_class.html'
+
+class Cartera_create(CreateView):
+    model = Cartera
+    form_class = NewCarteraForm
+    template_name = 'Cartera/cartera_edit_class.html'
+    success_url = reverse_lazy('cartera_list')
+
+    def form_valid(self, form):
+        form.instance.fecha = True=timezone.now()
+        return super(cartera_create, self).form_valid(form)
+
+
+class Cartera_edit(UpdateView):
+    model = Cartera
+    form_class = NewCarteraForm
+    template_name = 'Cartera/cartera_edit_class.html'
+    success_url = reverse_lazy('cartera_list')
+
+class Cartera_delete(DeleteView):
+    model = Cartera
+    form_class = NewCarteraForm
+    template_name = 'cartera/cartera_delete.html'
+    success_url = reverse_lazy('cartera_list')
+
+######### FIN clases para Cartera #########
 
 
 ##############   Fin Vistas Basadas en clases #############

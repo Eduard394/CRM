@@ -159,7 +159,7 @@ class NewVentaForm(forms.ModelForm):
 		empty_label=None)
 
 	precio_unitario= forms.IntegerField(
-	required=True, label='Cantidad',
+	required=True, label='Precio Unitario',
 	widget=forms.TextInput(attrs={
 		'class': 'form-control', 'placeholder': 'Precio Unitario',
 		'required': 'required'}))
@@ -171,7 +171,7 @@ class NewVentaForm(forms.ModelForm):
 		'required': 'required'}))
 
 	precio_total = forms.IntegerField(
-	required=True, label='Cantidad',
+	required=True, label='Precio Total',
 	widget=forms.TextInput(attrs={
 		'class': 'form-control', 'placeholder': 'Precio Total',
 		'required': 'required'}))
@@ -201,6 +201,39 @@ class NewVentaForm(forms.ModelForm):
             #self.fields['producto'].queryset = Producto.objects.all()
 
 
+#######  FORM para Ventas #################
+class NewCarteraForm(forms.ModelForm):
+	cliente = forms.ModelChoiceField(label=_(u'Asignar a usuario:'),
+		widget=forms.Select(attrs={
+			'size': 1, 'class': 'form-control'}),
+		queryset=Cliente.objects.all(),
+		empty_label=None)
+
+
+	saldo = forms.IntegerField(
+	required=True, label='Saldo',
+	widget=forms.TextInput(attrs={
+		'class': 'form-control', 'placeholder': 'Saldo Total',
+		'required': 'required'}))
+
+
+
+	class Meta:
+		model = Venta
+		fields = [
+			'cliente',
+			'saldo',
+
+		]
+
+		labels = {
+		}
+
+
+        def __init__(self, user=None, *args, **kwargs):
+            super(NewVentaForm, self).__init__(*args, **kwargs)
+           # self.fields['cliente'].queryset = Cliente.objects.all()
+            #self.fields['producto'].queryset = Producto.objects.all()
 
 
 
