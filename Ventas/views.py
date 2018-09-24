@@ -135,6 +135,28 @@ def venta_list(request):
         venta_list = Venta.objects.all().order_by('fecha')
         return render(request, 'Ventas/venta_list.html', {'venta_list': venta_list})
 
+def Cartera(request):
+    #return HttpResponse("Hello, world. Yeduard Legartda .")
+    return render(request, 'Ventas/cartera.html')
+
+def list_user_table(request):
+    """
+    List all user of a custumer in a table
+    """
+    if request.method == 'GET':
+        clientes_list = Cliente.objects.filter(fecha_crea__lte=timezone.now()).order_by('nombres')
+        serializer = UsuariosSerializer(usuario, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST': #never used
+        data = JSONParser().parse(request)
+        serializer = UsuariosSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+
 ##############  FIN Vistas Basadas en Funciones #############
 
 

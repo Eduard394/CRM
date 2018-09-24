@@ -41,4 +41,6 @@ urlpatterns = [
     url(r'^venta/(?P<pk>[0-9]+)/edit/$', views.Venta_edit.as_view(), name='venta_edit'),
     url(r'^venta/(?P<pk>[0-9]+)/delete/$', views.Venta_delete.as_view(), name='venta_delete'),
    # url(r'^venta/(?P<pk>[0-9]+)/$', views.venta_detail.as_view(), name='venta_detail_class'),
+
+    url(r'^client/cartera', views.Cartera,name='listar_C'),
 ]
