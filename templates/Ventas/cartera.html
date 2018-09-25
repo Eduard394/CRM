@@ -1,4 +1,4 @@
-   {% extends 'Ventas/base.html' %}
+   {% extends 'base/base.html' %}
 
 {% block content %}
 
@@ -16,19 +16,34 @@
             <div class="card-header" data-background-color="purple">
               <center> <h1>Clientes</h1>  </center> 
               <input type="date" id="fecha_inicial" placeholder="Fecha Inicial:"></label>
-              <p class='category'><input type="text" id="Filtro" placeholder="Buscar" style="width: 116px; color:black;" class="hasDatepicker"></p>
+              <p class='category'><input type="text" id="Filtro" placeholder="Buscar" style="width: 200px; color:black;" class="hasDatepicker"></p>
               <div class="card ">
                 <div class=" card-content">
                   <div id="car_list_all" class="card-content table-responsive">      
                     <table class="table table-hover"  >
                         <thead class='text-primary'>
                           <tr>
-                            <th>Usuario</th>
-                            <th>Nombres</th>
-                            <th>Deuda</th>
+                            <th>Cliente</th>
+
+                            
                           </tr>
                         </thead>
                         <tbody id="comb">
+
+                    {% if lista %}
+                        {% for list in lista %}
+                        <tr>
+                          <td>{{ list.cliente}}</td> 
+
+                          
+                         
+                        </tr>
+                        {% endfor %}
+                        
+                        {% else %}
+                        <h1>No hay registros de clientes</h1>
+                        {% endif %}
+
                        </tbody>
                      </table>
                     </div>
@@ -52,30 +67,5 @@
         </div>
       </div>
 
+
 {% endblock %}
-
-<script type="text/javascript">
-  function refrescatab(){
-
-        $.getJSON("{% url 'list_user_table' %}",function(ndata){
-          
-                car_list="";
-                ids=new Array();
-                user=new Array();
-                celular=new Array();
-
-                for (var i = 0; i < ndata.length; i++){
-                    var obj = ndata[i];
-
-                    for (var key in obj){
-                        ids.push(obj.id);
-                        user.push(obj.username);
-                        celular.push(obj.celular);                    
-                    }
-                      newElement.push('<tr onclick="clickubi2(this)"  data-id= '+obj.id+' class="indexbus ubicame"> <td>'+obj.username+'</td><td>'+obj.nombres+ " " +obj.apellidos+ '</td><td>'+obj.celular+'</td></tr>');
-                      $("#comb").html(newElement.join(''));
-                }
-            })        
-        }
-
-</script>

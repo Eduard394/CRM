@@ -203,12 +203,7 @@ class NewVentaForm(forms.ModelForm):
 
 #######  FORM para Ventas #################
 class NewCarteraForm(forms.ModelForm):
-	cliente = forms.ModelChoiceField(label=_(u'Asignar a usuario:'),
-		widget=forms.Select(attrs={
-			'size': 1, 'class': 'form-control'}),
-		queryset=Cliente.objects.all(),
-		empty_label=None)
-
+	
 
 	saldo = forms.IntegerField(
 	required=True, label='Saldo',
@@ -221,7 +216,6 @@ class NewCarteraForm(forms.ModelForm):
 	class Meta:
 		model = Venta
 		fields = [
-			'cliente',
 			'saldo',
 
 		]

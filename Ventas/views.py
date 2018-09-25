@@ -137,7 +137,10 @@ def venta_list(request):
 
 def Cartera(request):
     #return HttpResponse("Hello, world. Yeduard Legartda .")
-    return render(request, 'Ventas/cartera.html')
+    #lista = Venta.objects.all().order_by('id')
+    lista= Venta.objects.filter(estado_pago=False)
+    return render(request, 'Ventas/cartera.html', {'lista': lista})
+    #return render(request, 'Ventas/cartera.html')
 
 def list_user_table(request):
     """
@@ -237,12 +240,35 @@ class Venta_list(ListView):
 class Venta_create(CreateView):
     model = Venta
     form_class = NewVentaForm
+    second_form_class=NewProductoForm
     template_name = 'Ventas/venta_edit_class.html'
     success_url = reverse_lazy('venta_list')
 
+
+    def get_context_data(self,**kwargs):
+        context= super(Venta_create,self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form']=self.form_class(self.request.GET)
+        if 'form2' not in context:
+            context['form2']=self.form_class(self.request.GET)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        if form.is_valid() and form2.is_valid():
+            solicitud = form.save(commit=False)
+            solicitud.cartera = form2.save()
+            solicitud.save()
+            return HttpResponseRedirect(self.success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form , form2=form2))
+"""
+
     def form_valid(self, form):
         form.instance.fecha = True=timezone.now()
-        return super(Venta_create, self).form_valid(form)
+        return super(Venta_create, self).form_valid(form)"""
 
 class Venta_edit(UpdateView):
     model = Venta

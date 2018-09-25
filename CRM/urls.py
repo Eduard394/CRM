@@ -10,6 +10,7 @@ urlpatterns = [
    # url(r'^Ventas/', include('Ventas.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'', include('Ventas.urls')),
+    #url(r'', include('Ventas.urls', namespace='ventas')),
     url(r'^',login,  {'template_name':'login.html'}, name='logins'),
 
 
