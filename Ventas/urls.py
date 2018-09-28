@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include
 from django.conf.urls import include, url
 from django.contrib.auth.views import login, logout_then_login, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
 from django.contrib.auth.decorators import login_required
-from Ventas.views import Cliente_list, Cliente_create,Producto_list,Producto_create
+from Ventas.views import Cliente_list, Cliente_create,Producto_list,Producto_create,Cartera_list
 from . import views
 
 urlpatterns = [
@@ -42,5 +42,7 @@ urlpatterns = [
     url(r'^venta/(?P<pk>[0-9]+)/delete/$', views.Venta_delete.as_view(), name='venta_delete'),
    # url(r'^venta/(?P<pk>[0-9]+)/$', views.venta_detail.as_view(), name='venta_detail_class'),
 
-    url(r'^client/cartera', views.Cartera,name='listar_C'),
+    #url(r'^client/cartera', views.Cartera,name='listar_C'),
+    url(r'^cartera/new/$', views.Cartera_create.as_view(), name='cartera_new'),
+    url(r'^cartera/list', views.Cartera_list.as_view(), name='cartera_list'),
 ]

@@ -8,13 +8,13 @@
         width:  100%;
         }
     </style>
-     
+ <!--    
 <div class="container">
 
         <div class="row">
           <div class="col-md-5">
             <div class="card-header" data-background-color="purple">
-              <center> <h1>Clientes</h1>  </center> 
+              <center> <h1>Facturas sin pagar</h1>  </center> 
               <input type="date" id="fecha_inicial" placeholder="Fecha Inicial:"></label>
               <p class='category'><input type="text" id="Filtro" placeholder="Buscar" style="width: 200px; color:black;" class="hasDatepicker"></p>
               <div class="card ">
@@ -34,9 +34,7 @@
                         {% for list in lista %}
                         <tr>
                           <td>{{ list.cliente}}</td> 
-
-                          
-                         
+                          <td>{{ list.producto}}</td>       
                         </tr>
                         {% endfor %}
                         
@@ -67,5 +65,219 @@
         </div>
       </div>
 
+-->
+
+
+<div class="container">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="card-header" data-background-color="purple">
+              <center> <h3>Clientes en Mora</h3>  </center> 
+                <form>
+                  <select id="mySelect">
+                    <option>Agenda para hoy</option>                    
+                    <option>Seleccionar fecha</option>
+                  </select>
+                </form>          
+
+                <div class = "row" id = "fechasSelection" style='display:none'>
+                   <div class="col-md-12" > 
+                   </br> 
+                  <p><b>Buscar actividades entre fechas:</b></p>
+                </div>
+
+                  <div class="col-md-6" >  
+                  Desde:</br>
+                 <input onchange="validarFecha()" type="date" id="fecha_inicial" placeholder="Fecha Inicial:"></label>
+                    <div id = "msgFecha" style='display:none'>
+                        <FONT COLOR="red"><b>La fecha de inicio no debe ser mayor a la final</b></FONT> 
+
+                    </div>
+                  </div>
+
+                 <div class="col-md-6" >   
+                    Hasta:</br>
+                    <input onchange="validarFecha()" type="date" id="fecha_final" placeholder="Fecha Inicial:"></label>
+                  </div>     
+              </div>
+            </br>              
+              <p class='category'><input type="text" id="Filtro" placeholder="F266iltrar asesores1" style="width: 116px; color:black;" class="hasDatepicker"></p>
+              <div class="card ">
+                <div class=" card-content">
+                  <div id="car_list_all" class="card-content table-responsive">      
+                    <table class="table table-hover"  >
+                        <thead class='text-primary'>
+                          <tr>
+                            <th>Usuario</th>
+                            <th>Nombres</th>
+                          </tr>
+                        </thead>
+                        <tbody id="comb" >
+                        {% if lista %}
+                        {% for list in lista %}
+                        <tr>
+                          <td>{{ list.cliente}}</td> 
+                          <td>{{ list.producto}}</td>       
+                        </tr>
+                        {% endfor %}
+                        
+                        {% else %}
+                        <h1>No hay registros de clientes</h1>
+                        {% endif %}
+
+                       </tbody>
+                          <body onload="init_basic();">                            
+                          </body>   
+                       </tbody>
+                     </table>
+                    </div>
+                </div>  
+              </div>
+            </div>
+          </div>
+
+
+           <center>  <b><p id="p2">  </p> </b> </Right>
+            <div class="right">            
+                <div class="col-md-6" >    
+                    <div class="card ">   
+                      <center> <b> <p >Actividades</p> </b>  </center>
+                      <canvas id="myChart" width="500" height="200"></canvas>
+                      <center> <b> <p id="p1"></p> </b>  </center>
+                      <button  id="btn_showAct" type="button" onclick="showTableActividades()" class="btn btn-primary">Mostrar tabla</button>
+                    </div>
+                </div>
+                <div class="col-md-1" ></div>
+               
+            </div>
+
+<script type="text/javascript">
+  
+  function init_basic () {
+    msgFecha.style.display='none'
+    btn_showMap.style.display='none'
+    fechasSelection.style.display = "none"
+    list_actividades.style.display = 'none';
+    list_cuentas.style.display = 'none';
+    btn_showAct.style.visibility = 'hidden';
+    btn_showCuenta.style.visibility = 'hidden';
+    //graficos.style.display='none';
+    document.getElementById("p1").innerHTML = "Seleccione asesor para ver información" 
+    document.getElementById("pCuenta2").innerHTML = "Seleccione asesor para ver información" 
+    fechai = get_date();
+    fecha_inicio_selected = get_date();
+    fecha_fin_selected = get_date();
+
+    document.getElementById("mySelect").selectedIndex = "0";
+    document.getElementById("btn_showAct").innerHTML="Ocultar tabla";
+
+    $('#Filtro').keyup(function(){
+    valor=jQuery(this).val().toLowerCase();
+    var trs=jQuery(".indexbus");
+    if(valor.length>0){
+    var tam =trs.length;
+    trs.each(function (){
+      var hijo1=jQuery(this).find(':nth-child(1)').text().toLowerCase();
+      var hijo2=jQuery(this).find(':nth-child(2)').text().toLowerCase();
+      if(hijo1!='Placa'){
+      if(hijo1.indexOf(valor)!=-1 || hijo2.indexOf(valor)!=-1){ 
+        jQuery(this).show();
+      }else{
+        jQuery(this).hide();
+      }
+       }
+          });
+    }else{
+    trs.show();   
+    }
+  });  
+
+
+
+  function getCuentas(user_id,username) {
+        cuentasElement = [];
+        var cue1 = 0, cue2 = 0, cue3 = 0;
+
+        $("#table_info_cuentas").html(cuentasElement.join(''));
+        $.getJSON('/cuentas/charts/?owner_usuario='+user_id , function (data) {
+           for(var i = 0; i < data.length; i++){
+                var obj = data[i];     
+                
+                var cuentaString = ""
+                switch(obj.tipo_cuenta ) {
+                      case 1:
+                          cue1++;
+                          cuentaString = "Prospecto"
+                          break;
+                      case 2:
+                          cue2++;
+                          cuentaString = "Oportunidad" 
+                          break;
+                      case 3:
+                          cue3++;
+                          cuentaString = "Cliente"
+                          break;
+                  }
+
+                cuentasElement.push('<tr onclick="showCuentasDetails(this)"  data-cuenta-id= '+obj.id+' class="indexcuenta ubicame"> <td>'+obj.nombre_cuenta+'</td><td>'+cuentaString+'</td> </tr>');
+                $("#table_info_cuentas").html(cuentasElement.join(''));             
+            }            
+
+            if(data.length == 0){
+              defaultDataCuenta = [0]
+              myChartCuenta.destroy();
+              setChartCuenta()      
+              document.getElementById("pCuenta2").innerHTML = "Sin cuentas de "+username+" para mostrar"
+              list_cuentas.style.display='none'
+              btn_showCuenta.style.visibility = 'hidden';
+            }else{
+              //list_cuentas.style.display='block'
+              btn_showCuenta.style.visibility = 'visible';
+              defaultDataCuenta = [cue1,cue2,cue3]
+              myChartCuenta.destroy();
+              document.getElementById("pCuenta2").innerHTML = "Cuentas de " + username;
+              setChartCuenta()
+            }
+            $("#table_info_cuentas").html(cuentasElement.join(''));
+           }); 
+    }
+
+
+
+    showTableActividades = function (){
+      if(tableActividadActive){
+          list_actividades.style.display='none'
+          tableActividadActive = false;
+          document.getElementById("btn_showAct").innerHTML="Mostrar tabla";
+      }else{
+          if(tableCuentaActive){
+            list_cuentas.style.display='none'
+            tableCuentaActive = false;
+            document.getElementById("btn_showCuenta").innerHTML="Mostrar tabla";
+          }
+          document.getElementById("btn_showAct").innerHTML="Ocultar tabla";
+          list_actividades.style.display='block'
+          tableActividadActive = true;        
+      }
+    }
+
+
+
+
+</script>
+
+<style type="text/css">
+  
+  .left{
+    float: left;
+    background:blue
+}
+.right{
+    float: right;
+    background:white
+}
+.center{
+    background:green;
+</style>
 
 {% endblock %}

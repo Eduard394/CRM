@@ -240,35 +240,13 @@ class Venta_list(ListView):
 class Venta_create(CreateView):
     model = Venta
     form_class = NewVentaForm
-    second_form_class=NewProductoForm
     template_name = 'Ventas/venta_edit_class.html'
     success_url = reverse_lazy('venta_list')
 
-
-    def get_context_data(self,**kwargs):
-        context= super(Venta_create,self).get_context_data(**kwargs)
-        if 'form' not in context:
-            context['form']=self.form_class(self.request.GET)
-        if 'form2' not in context:
-            context['form2']=self.form_class(self.request.GET)
-        return context
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object
-        form = self.form_class(request.POST)
-        form2 = self.second_form_class(request.POST)
-        if form.is_valid() and form2.is_valid():
-            solicitud = form.save(commit=False)
-            solicitud.cartera = form2.save()
-            solicitud.save()
-            return HttpResponseRedirect(self.success_url())
-        else:
-            return self.render_to_response(self.get_context_data(form=form , form2=form2))
-"""
-
     def form_valid(self, form):
         form.instance.fecha = True=timezone.now()
-        return super(Venta_create, self).form_valid(form)"""
+        form.instance.precio_total=0
+        return super(Venta_create, self).form_valid(form)
 
 class Venta_edit(UpdateView):
     model = Venta
@@ -295,8 +273,8 @@ class venta_detail_class(ListView):
 ######### clases para Cartera #########
 
 class Cartera_list(ListView):
-    model= Cartera
-    template_name='Cartera/cartera_list_class.html'
+    model = Cartera
+    template_name= 'Cartera/ca.html'
 
 class Cartera_create(CreateView):
     model = Cartera
@@ -323,5 +301,43 @@ class Cartera_delete(DeleteView):
 
 ######### FIN clases para Cartera #########
 
+"""
+
+class Venta_create(CreateView):
+    model = Venta
+    form_class = NewVentaForm
+    second_form_class=NewCarteraForm
+    template_name = 'Ventas/venta_edit_class.html'
+    success_url = reverse_lazy('venta_list')
+
+
+    def get_context_data(self,**kwargs):
+        context= super(Venta_create,self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form']=self.form_class(self.request.GET)
+        if 'form2' not in context:
+            context['form2']=self.second_form_class(self.request.GET)
+
+        print kwargs
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        if form.is_valid() and form2.is_valid():
+            solicitud = form.save(commit=False)
+            solicitud.cartera = form2.save()
+            solicitud.save()
+            return HttpResponseRedirect(self.success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form , form2=form2))
+
+
+    def form_valid(self, form):
+        form.instance.fecha = True=timezone.now()
+        return super(Venta_create, self).form_valid(form2)
+
+"""
 
 ##############   Fin Vistas Basadas en clases #############

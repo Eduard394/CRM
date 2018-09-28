@@ -224,8 +224,8 @@ class NewCarteraForm(forms.ModelForm):
 		}
 
 
-        def __init__(self, user=None, *args, **kwargs):
-            super(NewVentaForm, self).__init__(*args, **kwargs)
+      #  def __init__(self, user=None, *args, **kwargs):
+       #     super(NewVentaForm, self).__init__(*args, **kwargs)
            # self.fields['cliente'].queryset = Cliente.objects.all()
             #self.fields['producto'].queryset = Producto.objects.all()
 
